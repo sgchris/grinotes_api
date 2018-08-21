@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateFilesTable extends Migration {
+class CreateFilesVersionsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,12 @@ class CreateFilesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('files', function(Blueprint $table)
+		Schema::create('files_versions', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->string('name')->nullable();
+			$table->integer('file_id')->nullable()->index('file_id');
 			$table->integer('date_created')->nullable();
-			$table->integer('user_id')->nullable();
+			$table->text('content', 65535)->nullable();
 		});
 	}
 
@@ -29,7 +29,7 @@ class CreateFilesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('files');
+		Schema::drop('files_versions');
 	}
 
 }
