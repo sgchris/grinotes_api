@@ -17,21 +17,11 @@ Route::get('/', function () {
 
 // metadata //
 
-Route::get('/metadata', function () {
-    return ['metadata' => App\Metadata::all()];
-});
-Route::post('/metadata', function () {
-    return ['metadata' => App\Metadata::all()];
-});
-Route::get('/metadata/{metakey}', function ($key) {
-    return ['metadata' => App\Metadata::where('key', $key)->get()];
-});
-Route::put('/metadata/{metakey}', function ($key) {
-    return [];
-});
-Route::delete('/metadata/{metakey}', function ($key) {
-    App\Metadata::where('key', $key)->delete();
-});
+Route::get('/metadata', 'MetadataController@index');
+Route::post('/metadata', 'MetadataController@add');
+Route::get('/metadata/{metakey}', 'MetadataController@index');
+Route::put('/metadata/{metakey}', 'MetadataController@update');
+Route::delete('/metadata/{metakey}', 'MetadataController@delete');
 
 // files //
 Route::get('/files', function () {
