@@ -18,35 +18,21 @@ Route::get('/', function () {
 // metadata //
 
 Route::get('/metadata', 'MetadataController@index');
-Route::post('/metadata', 'MetadataController@add');
-Route::get('/metadata/{metakey}', 'MetadataController@index');
-Route::put('/metadata/{metakey}', 'MetadataController@update');
-Route::delete('/metadata/{metakey}', 'MetadataController@delete');
+Route::post('/metadata', 'MetadataController@store');
+Route::get('/metadata/{metakey}', 'MetadataController@show');
+Route::patch('/metadata/{metakey}', 'MetadataController@update');
+Route::delete('/metadata/{metakey}', 'MetadataController@destroy');
 
 // files //
-Route::get('/files', function () {
-    return ['files' => \App\File::all()];
-});
-Route::post('/files', function () {
-    return ['files' => []];
-});
 
-Route::get('/files/{fileid}', function ($fileId) {
-    return ['file' => App\File::find($fileId)];
-});
-Route::put('/files/{fileid}', function ($fileId) {
-    return ['files' => []];
-});
-Route::delete('/files/{fileid}', function ($fileId) {
-    $result = App\File::find($fileId)->delete();
-    return compact('result');
-});
+Route::get('/files', 'FilesController@index');
+Route::post('/files', 'FilesController@store');
 
-Route::get('/files/{fileid}/versions', function ($fileId) {
-    return ['versions' => \App\FileVersion::all()];
-});
-Route::get('/files/{fileid}/versions/{versionid}', function ($fileId, $versionId) {
-    //dd($versionId);
-    $fileVersion = \App\FileVersion::where('id', '=', $versionId);
-    return ['version' => $fileVersion];
-});
+Route::get('/files/{file}', 'FilesController@show');
+Route::patch('/files/{file}', 'FilesController@store');
+Route::delete('/files/{file}', 'FilesController@destroy');
+
+Route::get('/files/{file}/versions', 'FileVersionsController@index');
+Route::post('/files/{file}/versions', 'FileVersionsController@store');
+Route::get('/files/{file}/versions/{version}', 'FileVersionsController@show');
+
