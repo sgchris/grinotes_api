@@ -26,4 +26,26 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+	public function files() 
+	{
+		return $this->hasMany(File::class);
+	}
+
+	public function metadata() 
+	{
+		return $this->hasMany(Metadata::class);
+	}
+
+	// operations
+
+	public function addFile($name)
+	{
+		$this->files->add(['name' => $name]);
+	}
+
+	public function setMetadata($key, $value)
+	{
+		$this->metadata->add(['name' => $name]);
+	}
 }

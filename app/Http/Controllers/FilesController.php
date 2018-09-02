@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\File;
 
 class FilesController extends Controller
 {
@@ -12,6 +13,16 @@ class FilesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+    {
+        return File::all();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
         //
     }
@@ -24,7 +35,15 @@ class FilesController extends Controller
      */
     public function store(Request $request)
     {
-        dd(request()->all());
+		$validator = \Validator::make($request->only(['name']), [
+			'name' => 'required|min:2|max:250'
+		]);
+
+		if ($validator->fails()) {
+			return ['error' => $validator->errors()];
+		}
+
+		$name = $request->only('name');
     }
 
     /**
@@ -34,6 +53,17 @@ class FilesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
         //
     }

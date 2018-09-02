@@ -12,27 +12,5 @@
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('welcome');
 });
-
-// metadata //
-
-Route::get('/metadata', 'MetadataController@index');
-Route::post('/metadata', 'MetadataController@store');
-Route::get('/metadata/{metakey}', 'MetadataController@show');
-Route::patch('/metadata/{metakey}', 'MetadataController@update');
-Route::delete('/metadata/{metakey}', 'MetadataController@destroy');
-
-// files //
-
-Route::get('/files', 'FilesController@index');
-Route::post('/files', 'FilesController@store');
-
-Route::get('/files/{file}', 'FilesController@show');
-Route::patch('/files/{file}', 'FilesController@store');
-Route::delete('/files/{file}', 'FilesController@destroy');
-
-Route::get('/files/{file}/versions', 'FileVersionsController@index');
-Route::post('/files/{file}/versions', 'FileVersionsController@store');
-Route::get('/files/{file}/versions/{version}', 'FileVersionsController@show');
-
