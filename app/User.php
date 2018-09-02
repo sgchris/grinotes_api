@@ -9,6 +9,9 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+	// the currently auth user
+	public static $current = null;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -46,6 +49,8 @@ class User extends Authenticatable
 
 	public function setMetadata($key, $value)
 	{
-		$this->metadata->add(['name' => $name]);
+		$metadataRecord = $this->metadata::firstOrCreate(['key' => $key]);
+		$metadataRecord->value = $value;
+		$metadataRecord->save();
 	}
 }

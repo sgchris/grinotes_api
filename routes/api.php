@@ -19,6 +19,7 @@ use App\File;
 //     return $request->user();
 // });
 
+
 Route::get('metadata', 'FilesController@index');
 Route::post('metadata', 'FilesController@store');
 Route::get('metadata/{key}', 'MetadataController@show');

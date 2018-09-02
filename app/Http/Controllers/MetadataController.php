@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class MetadataController extends Controller
 {
@@ -14,6 +15,7 @@ class MetadataController extends Controller
     public function index()
     {
         //
+		return User::current()->metadata;
     }
 
     /**
@@ -25,6 +27,12 @@ class MetadataController extends Controller
     public function store(Request $request)
     {
         //
+		$request->validate(request(), [
+			'key' => 'required|min:2|max:255',
+			'value' => 'required|min:2',
+		]);
+
+		User::current()->setMetadata(request('key'), request('value'));
     }
 
     /**
