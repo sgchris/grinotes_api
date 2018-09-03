@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\File;
+use App\Http\Middleware\CheckFacebookToken;
 
 class FilesController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *

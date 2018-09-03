@@ -35,4 +35,9 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+	'facebook' => [
+		'app_id' => env('FACEBOOK_APP_ID'),
+		'secret' => env('FACEBOOK_SECRET'),
+	],
+
 ];
