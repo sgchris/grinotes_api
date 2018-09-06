@@ -2,12 +2,10 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use Notifiable;
 
 	// the currently auth user
 	public static $current = null;
@@ -21,18 +19,9 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-	public function files() 
+	public function folders() 
 	{
-		return $this->hasMany(File::class);
+		return $this->hasMany(Folder::class);
 	}
 
 	public function metadata() 
@@ -42,9 +31,9 @@ class User extends Authenticatable
 
 	// operations
 
-	public function addFile($name)
+	public function addFolder($name)
 	{
-		$this->files->add(['name' => $name]);
+		$this->folders->add(['name' => $name]);
 	}
 
 	public function setMetadata($key, $value)

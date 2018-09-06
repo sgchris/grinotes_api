@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 use App\File;
+use App\Folder;
 use App\Http\Middleware\CheckFacebookToken;
 
 class FilesController extends Controller
@@ -14,19 +16,13 @@ class FilesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Folder $folder)
     {
-        return File::all();
-    }
+		if (User::$current != $folder->user()) {
+			return ['error' => 'no permissions to get files list'];
+		}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return $folder->files();
     }
 
     /**
@@ -37,15 +33,20 @@ class FilesController extends Controller
      */
     public function store(Request $request)
     {
-		$validator = \Validator::make($request->only(['name']), [
-			'name' => 'required|min:2|max:250'
+		validate($request->only(['name', 'folder_id']), [
+			'name' => 'required|min:2|max:250',
+			'folder_id' => 'required|numeric',
 		]);
 
-		if ($validator->fails()) {
-			return ['error' => $validator->errors()];
+		$name = $request->only('name');
+
+		// validate/find folder
+		$folder = User::$current->folders::find(request('folder_id'));
+		if (!$folder) {
+			return ['error' => 'folder not found'];
 		}
 
-		$name = $request->only('name');
+		$folder->addFile($name);
     }
 
     /**
@@ -54,32 +55,17 @@ class FilesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Folder $folder, File $file)
     {
-        //
-    }
+		if (User::$current() != $folder->user()) {
+			return ['error' => 'no permissions to get the file'];
+		}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+		if ($file->folder() != $folder) {
+			return ['error' => 'file and folder do not match'];
+		}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+		return $file;
     }
 
     /**
@@ -88,8 +74,17 @@ class FilesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Folder $folder, File $file)
     {
-        //
+		if (User::$current() != $folder->user()) {
+			return ['error' => 'no permissions to get the file'];
+		}
+
+		if ($file->folder() != $folder) {
+			return ['error' => 'file and folder do not match'];
+		}
+
+		$file->destroy();
     }
+
 }

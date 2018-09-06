@@ -11,6 +11,11 @@ class File extends Model
 		return $this->belongsTo(User::class);
 	}
 
+	public function folder() 
+	{
+		return $this->belongsTo(Folder::class);
+	}
+
 	public function versions() 
 	{
 		return $this->hasMany(FileVersion::class);

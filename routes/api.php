@@ -26,16 +26,20 @@ Route::get('metadata/{key}', 'MetadataController@show');
 Route::put('metadata/{key}', 'MetadataController@update');
 Route::delete('metadata/{key}', 'MetadataController@destroy');
 
-Route::get('files', 'FilesController@index');
-Route::post('files', 'FilesController@store');
+Route::get('folders', 'FoldersController@index');
+Route::post('folders', 'FoldersController@store');
+Route::get('folders/{folder}', 'FoldersController@show');
+Route::put('folders/{folder}', 'FoldersController@update');
+Route::delete('folders/{folder}', 'FoldersController@destroy');
 
-Route::get('files/{file}', 'FilesController@show');
-Route::put('files/{file}', 'FilesController@update');
-Route::delete('files/{file}', 'FilesController@destroy');
+Route::get('folders/{folder}/files', 'FilesController@index');
+Route::post('folders/{folder}/files', 'FilesController@store');
 
-Route::get('files/{file}/verions', 'FilesVersionsController@index');
-Route::post('files/{file}/verions', 'FilesVersionsController@store');
-Route::get('files/{file}/versions/{version}', 'FilesVersionsController@show');
+Route::get('folders/{folder}/files/{file}', 'FilesController@show');
+Route::put('folders/{folder}/files/{file}', 'FilesController@update');
+Route::delete('folders/{folder}/files/{file}', 'FilesController@destroy');
 
-
+Route::get('folders/{folder}/files/{file}/verions', 'FilesVersionsController@index');
+Route::post('folders/{folder}/files/{file}/verions', 'FilesVersionsController@store');
+Route::get('folders/{folder}/files/{file}/versions/{version}', 'FilesVersionsController@show');
 
